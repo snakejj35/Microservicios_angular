@@ -1,0 +1,18 @@
+package com.formacionbdi.microservicios.app.cursos.models.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+//Clase que Guarda el id de los alumnos
+@Entity
+@Table(name="curso_alumno")
+public class CursoAlumno {
+	
+	@Id
+	@GeneratedValue()
+	private Long id;
+	
+	private Long alumniId;
+}

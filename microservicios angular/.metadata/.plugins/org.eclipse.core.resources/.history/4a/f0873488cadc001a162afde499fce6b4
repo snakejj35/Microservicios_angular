@@ -1,0 +1,21 @@
+package com.formacionbdi.microservicios.app.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.formacionbdi.microservicios.app.respuestas.services.IRespuestaService;
+
+@RestController
+public class RespuestaController{
+	
+	@Autowired
+	private IRespuestaService service;
+	
+	@PostMapping
+	private ResponseEntity<?> crearRespuestas(@RequestBody Iterable<<Respuesta> respuestas) {
+		
+		return null;
+	}
+}

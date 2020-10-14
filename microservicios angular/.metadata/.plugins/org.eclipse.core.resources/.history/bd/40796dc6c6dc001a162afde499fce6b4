@@ -1,0 +1,50 @@
+package com.formacionbdi.microservicios.app.respuestas.models.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import com.formacionbdi.microservicios.common.examenes.models.entity.Pregunta;
+import com.formacionbdi.microservicios.commons.alumnos.models.entity.Alumno;
+
+@Entity
+@Table(name="respuestas")
+public class Respuesta {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@NotEmpty
+	private String texto;
+	
+	@OneToOne(fetch = FetchType.LAZY) //Una pregunta a una respuesta
+	private Pregunta pregunta;
+	
+	@OneToMany(fetch = FetchType.LAZY)  //Un alumno a muchas respuestas
+	private Alumno alumno;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTexto() {
+		return texto;
+	}
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+}

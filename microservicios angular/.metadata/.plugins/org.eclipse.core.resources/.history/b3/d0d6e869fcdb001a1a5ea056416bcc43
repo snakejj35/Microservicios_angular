@@ -1,0 +1,18 @@
+package com.formacionbdi.microservicios.app.examenes.services;
+
+import java.util.List;
+
+import com.formacionbdi.microservicios.app.examenes.models.repository.IAsignaturaRepository;
+import com.formacionbdi.microservicios.app.examenes.models.repository.IExamenRepository;
+import com.formacionbdi.microservicios.common.examenes.models.entity.Asignatura;
+import com.formacionbdi.microservicios.common.services.CommonServiceImpl;
+
+public class AsignaturaServiceImpl extends CommonServiceImpl<Asignatura, IAsignaturaRepository> implements IAsignaturaService {
+
+	@Override
+	@Transactional()
+	public List<Asignatura> findAllAsignaturas() {
+		return repository;
+	}
+	
+}

@@ -1,0 +1,6 @@
+package com.formacionbdi.microservicios.app.cursos.models.entity;
+
+//Clase que Guarda el id de los alumnos
+public class CursoAlumno {
+
+}

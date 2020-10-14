@@ -1,0 +1,8 @@
+package com.formacionbdi.microservicios.app.cursos.clients;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient(name="microservicio-respuestas")
+public interface IRespuestaFeignClient { //Interfaz declarativa para comunicar con microservicio respuestas. Por medio del idntificador o nombre del microservicio
+
+}

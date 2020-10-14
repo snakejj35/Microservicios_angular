@@ -1,0 +1,30 @@
+package com.formacionbdi.microservicios.app.cursos.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.formacionbdi.microservicios.app.cursos.clients.IRespuestaFeignClient;
+import com.formacionbdi.microservicios.app.cursos.models.entity.Curso;
+import com.formacionbdi.microservicios.app.cursos.models.repository.ICursoRepository;
+import com.formacionbdi.microservicios.common.services.CommonServiceImpl;
+
+@Service
+public class CursoServiceImpl extends CommonServiceImpl<Curso, ICursoRepository> implements ICursoService {
+
+	@Autowired
+	private IRespuestaFeignClient repo;
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Curso findCursoByAlumnoId(Long id) {
+		return repository.findCursoByAlumnoId(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Iterable<Long> obtenerExamenesIdsConRespuestasAlumno(Long idAlu) {
+		return null;
+	}
+
+}

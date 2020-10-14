@@ -1,0 +1,9 @@
+package com.formacionbdi.microservicios.app.cursos.clients;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+//Consume el servicio y endpint de Rest de RespuestaController 
+@FeignClient(name="microservicio-")
+public interface IAlumnoFeignClient {
+
+}

@@ -1,0 +1,32 @@
+package com.formacionbdi.microservicios.app.cursos.models.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+//Clase que Guarda el id de los alumnos: Se genera una tabla y no una tabla intermedia entre cursos y alumnos
+@Entity
+@Table(name="cursos_alumnos")
+public class CursoAlumno {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	//Un alumno solo puede estar registrado en un solo curso por eso se utiliz el unique
+	@Column(name="alumno_id", unique = true)
+	private Long alumnoId;
+	
+	@JsonIgnoreProperties(value = {"cursoAlumno"})
+	@ManyToOne
+	@JoinColumn(name="curso_id")
+	private Curso curso; 
+	
+}

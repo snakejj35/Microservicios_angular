@@ -1,0 +1,8 @@
+package com.formacionbdi.microservicios.app.usuarios.client;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient
+public interface ICursoFeignClient {
+
+}

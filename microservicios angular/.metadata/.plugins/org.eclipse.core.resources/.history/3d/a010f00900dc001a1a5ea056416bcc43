@@ -1,0 +1,9 @@
+package com.formacionbdi.microservicios.app.examenes.controller;
+
+import com.formacionbdi.microservicios.app.examenes.services.IExamenService;
+import com.formacionbdi.microservicios.common.controllers.CommonController;
+import com.formacionbdi.microservicios.common.examenes.models.entity.Examen;
+
+public abstract class AbstractProvided extends CommonController<Examen, IExamenService{
+
+}

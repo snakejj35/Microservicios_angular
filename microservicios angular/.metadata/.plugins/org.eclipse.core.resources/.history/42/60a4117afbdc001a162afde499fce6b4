@@ -1,0 +1,13 @@
+package com.formacionbdi.microservicios.app.cursos.services;
+
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.formacionbdi.microservicios.app.cursos.models.entity.Curso;
+import com.formacionbdi.microservicios.common.services.ICommonService;
+
+public interface ICursoService extends ICommonService<Curso> {
+	
+	public Curso findCursoByAlumnoId(Long id);
+	
+	public Iterable<Long> obtenerExamenesIdsConRespuestasAlumno(@PathVariable Long idAlu);
+}

@@ -1,0 +1,16 @@
+package com.formacionbdi.microservicios.app.respuestas.models.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.formacionbdi.microservicios.app.respuestas.models.entity.Respuesta;
+
+public interface IRespuestaRepository extends CrudRepository<Respuesta, Long>{
+	
+	//Fetch para que en la consulta cargue todos los objetos relaciondos
+	@Query("SELECT r FROM Respuesta r JOIN FETCH r.alumno a WHERE")
+	public List<Respuesta> findRespuestaByAlumnoByExamen(Long alumnoId, Long examenId);
+
+}

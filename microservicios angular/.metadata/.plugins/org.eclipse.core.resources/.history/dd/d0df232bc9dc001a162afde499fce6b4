@@ -1,0 +1,15 @@
+package com.formacionbdi.microservicios.app.respuestas.services;
+
+import org.springframework.stereotype.Service;
+
+import com.formacionbdi.microservicios.app.respuestas.models.entity.Respuesta;
+
+@Service
+public class RespuestaServiceImpl implements IRespuestaService {
+
+	@Override
+	public Iterable<Respuesta> saveAll(Iterable<Respuesta> respuestas) {
+		return repository;
+	}
+
+}

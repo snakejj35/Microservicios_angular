@@ -1,0 +1,6 @@
+package com.formacionbdi.microservicios.app.usuarios.client;
+
+@FeignClient
+public interface ICursoFeignClient {
+
+}

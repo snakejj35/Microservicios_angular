@@ -1,0 +1,64 @@
+package com.formacionbdi.microservicios.app.examenes.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.formacionbdi.microservicios.app.examenes.services.IExamenService;
+import com.formacionbdi.microservicios.common.controllers.CommonController;
+import com.formacionbdi.microservicios.common.examenes.models.entity.Asignatura;
+import com.formacionbdi.microservicios.common.examenes.models.entity.Examen;
+import com.formacionbdi.microservicios.common.examenes.models.entity.Pregunta;
+
+@RestController
+public class ExamenController extends CommonController<Examen, IExamenService>{
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Examen> editar(@RequestBody Examen examen, @PathVariable Long id ) {
+		Optional<Examen> opt = service.finById(id);
+		
+		if(!opt.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		Examen examenDb = opt.get();
+		examenDb.setNombre(examen.getNombre());
+		
+		List<Pregunta> eliminadas = new ArrayList<>();
+		//Preguntas contenidas en el Json que Recorre la lista para mostrar las preguntas a eliminar
+		examenDb.getPreguntas()
+		.stream()
+		.filter(pdb -> !examen.getPreguntas().contains(pdb))
+		.forEach(examenDb :: removePregunta);
+
+		//Por cada pregunta a eliminar se suprime
+		eliminadas.forEach(p -> {
+			examenDb.removePregunta(p);
+		});
+		
+		//preguntas a eliminar que no estan contenidas en el JSON
+
+		//Agregar y modificar preguntas
+        examenDb.setPreguntas(examen.getPreguntas());
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(examenDb));
+	}
+	
+	@GetMapping("/filtrar/{term}")
+	public ResponseEntity<?> filtrar(@PathVariable String term) {
+		return ResponseEntity.ok(service.findByNombre(term));
+	}
+	
+	@GetMapping("/asignaturas")
+	public ResponseEntity<?> getAsignaturas() {
+		return ResponseEntity.ok(service.);
+	}
+
+}

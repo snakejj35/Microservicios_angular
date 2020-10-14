@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=microservicios-usuarios/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.formacionbdi.microservicios.app.usuarios.service{IAlumnoService.java[IAlumnoService" modifiers="513" timestamp="1597511620671"/>
+<typeInfo handle="=commons-microservicios/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.formacionbdi.microservicios.common.services{CommonServiceImpl.java[CommonServiceImpl" modifiers="1" timestamp="1597183682233"/>
+<typeInfo handle="=microservicios-examenes/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.formacionbdi.microservicios.app.examenes.services{IExamenService.java[IExamenService" modifiers="513" timestamp="1597170585053"/>
+<typeInfo handle="=microservicios-examenes/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.formacionbdi.microservicios.app.examenes.models.repository{IExamenRepository.java[IExamenRepository" modifiers="513" timestamp="1597183216637"/>
+</typeInfoHistroy>

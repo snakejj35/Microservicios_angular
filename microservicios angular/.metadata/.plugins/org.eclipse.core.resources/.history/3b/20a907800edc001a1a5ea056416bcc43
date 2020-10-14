@@ -1,0 +1,50 @@
+package com.formacionbdi.microservicios.common.controllers;
+
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.formacionbdi.microservicios.common.services.ICommonService;
+
+public class CommonController<E, S extends ICommonService<E>>{
+	
+	@Autowired
+	protected S service;
+	
+	@GetMapping   //Permite mapear una ruta url al metodo. 
+	public ResponseEntity<?> listar() {   //RessponseEntity: Es un objeto que permite construir la respuesta, el http entity. Pasa objetos al cuerpo
+		return ResponseEntity.ok().body(service.findAll()); // retorna un http status 
+	}
+	
+	@GetMapping("/{id}")    //Es un PathVariable osea una ruta variable url
+	public ResponseEntity<?> ver(@PathVariable Long id) {
+		Optional<E> opt = service.finById(id);
+		if(!opt.isPresent()) {
+			return ResponseEntity.notFound().build();  //Construye la respuesta para un notfound 404
+		}
+		return ResponseEntity.ok(opt.get());	//Http status 200	
+	}
+	
+	@PostMapping
+	public ResponseEntity<?> crear(@Valid @RequestBody E entity, BindingResult result) { //Con ResponseBody le indicamos que el objeto que traiga el requestBody los pueble en el objeto Alumno
+		E valorDB = service.save(entity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(valorDB); //Http status 201
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> eliminar(@PathVariable Long id) {
+		service.deleteById(id);
+		return ResponseEntity.noContent().build(); //Http status 204
+	}
+	
+}

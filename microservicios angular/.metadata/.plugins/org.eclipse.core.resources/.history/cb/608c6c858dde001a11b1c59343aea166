@@ -1,0 +1,9 @@
+package com.formacionbdi.microservicios.app.cursos.clients;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+//Consume el servicio o endpint de Rest de AlumnoController "obtenerAlumnosPorCurso"
+@FeignClient(name="microservicio-usuarios /alumnos-por-curso")
+public interface IAlumnoFeignClient {
+
+}

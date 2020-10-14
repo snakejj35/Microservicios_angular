@@ -1,0 +1,111 @@
+package com.formacionbdi.microservicios.common.examenes.models.entity;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name="examenes")
+public class Examen {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	private String nombre;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="create_at")
+	private Date createAt;
+	
+	/** Un examen tiene muchas preguntas. mappedBy:Relacion inversa. Lazy carga la consulta con sus relaciones vi getters. Cascade elimina preguntas cuando se elimina un examen
+	 *  orphanRemoval asignareferencia al examen en null y la llave foranea queda en null, por que no este relacionada a un examen**/
+	@JsonIgnoreProperties(value = {"examen"}, allowSetters = true)   //Se ignora la relacion inversa y la la generacion de JSON pra esta propiedad. AllowSetters permite la asignacion y la ocultacion de examen
+	@OneToMany(mappedBy = "examen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Pregunta> preguntas;
+	
+	
+	public Examen() {
+		this.preguntas = new ArrayList<>();
+	}
+
+	@PrePersist
+	public void prePersist() {
+		this.createAt = new Date();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
+	}
+
+	public List<Pregunta> getPreguntas() {
+		return preguntas;
+	}
+
+	//Porcada pregunta se asigna al examen del foreign key
+	public void setPreguntas(List<Pregunta> preguntas) {
+		this.preguntas.clear();  //Se reinicia las preguntas con las referencias de os objetos que se eliminaron e inicializar el arrayList una sola vez
+		preguntas.forEach(this :: addPregunta); //Lo mismo que: preguntas.forEach(p -> this.addPregunta(p));
+		//preguntas.forEach(p -> this.addPregunta(p));
+	}
+	
+	//Por cada pregunta que se agrega, tambien se incluye el examen y se asigna e examen a la pregunta
+	public void addPregunta(Pregunta pregunta) {
+		this.preguntas.add(pregunta);
+		pregunta.setExamen(this);
+	}
+	
+	public void removePregunta(Pregunta pregunta) {
+		this.preguntas.remove(pregunta);
+		pregunta.setExamen(null);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) {
+			return true;
+		}
+		if(!(obj instanceof Examen)) {
+			return false;
+		}
+		Examen exa = (Examen) obj;
+		return this.id != null && this.id.equals(exa.getId());
+	}
+		
+}
+

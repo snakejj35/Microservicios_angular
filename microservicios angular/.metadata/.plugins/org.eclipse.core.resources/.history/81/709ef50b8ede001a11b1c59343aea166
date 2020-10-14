@@ -1,0 +1,11 @@
+package com.formacionbdi.microservicios.app.cursos.services;
+
+import com.formacionbdi.microservicios.app.cursos.models.entity.Curso;
+import com.formacionbdi.microservicios.common.services.ICommonService;
+
+public interface ICursoService extends ICommonService<Curso> {
+	
+	public Curso findCursoByAlumnoId(Long id);
+	
+	public Iterable<Long> obtenerExamenesIdsConRespuestasAlumno(Long idAlu);
+}

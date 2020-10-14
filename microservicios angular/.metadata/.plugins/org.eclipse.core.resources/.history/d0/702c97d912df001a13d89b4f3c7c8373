@@ -1,0 +1,12 @@
+package com.formacionbdi.microservicios.app.cursos.models.repository;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.formacionbdi.microservicios.app.cursos.models.entity.Curso;
+
+public interface ICursoRepository extends PagingAndSortingRepository<Curso, Long>{
+	
+	@Query("SELECT c FROM Curso c JOIN FETCH c.cursoAlumnos a WHERE a.alumnoId=?1")
+	public Curso findCursoByAlumnoId(Long id);
+}

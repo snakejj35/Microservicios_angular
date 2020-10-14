@@ -1,0 +1,22 @@
+package com.formacionbdi.microservicios.app.examenes.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.formacionbdi.microservicios.app.examenes.models.repository.IAsignaturaRepository;
+import com.formacionbdi.microservicios.common.examenes.models.entity.Asignatura;
+import com.formacionbdi.microservicios.common.services.CommonServiceImpl;
+
+@Service
+public class AsignaturaServiceImpl extends CommonServiceImpl<Asignatura, IAsignaturaRepository> implements IAsignaturaService {
+    @Autowired
+	private IAsignaturaRepository asignaturaRepository;
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Iterable<Asignatura> findAllAsignaturas() {
+		return asignaturaRepository.findAll();
+	}
+	
+}

@@ -1,0 +1,91 @@
+package com.formacionbdi.microservicios.app.usuarios.controller;
+
+import java.io.IOException;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.formacionbdi.microservicios.app.usuarios.service.IAlumnoService;
+import com.formacionbdi.microservicios.common.controllers.CommonController;
+import com.formacionbdi.microservicios.commons.alumnos.models.entity.Alumno;
+
+@RestController
+public class AlumnoController extends CommonController<Alumno, IAlumnoService>{
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> editar(@Valid @RequestBody Alumno alumno, BindingResult result, @PathVariable Long id) {
+		if(result.hasErrors()) {
+			return this.validar(result);
+		}
+		
+		Optional<Alumno> optionalAlumno = service.finById(id);
+		if(!optionalAlumno.isPresent()) {
+			return ResponseEntity.notFound().build();  //Construye la respuesta para un notfound 404
+		}
+		
+		Alumno alumnoDB = optionalAlumno.get();
+		alumnoDB.setNombre(alumno.getNombre());
+		alumnoDB.setApellido(alumno.getApellido());
+		alumnoDB.setEmail(alumno.getEmail());
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumnoDB));
+	}
+	
+	@GetMapping("/filtrar/{term}")
+	public ResponseEntity<?> filtrar(@PathVariable String term) {
+		return ResponseEntity.ok(service.findByNombreApellido(term));
+	}
+
+	@PostMapping("/crear-img")
+	public ResponseEntity<?> crearImagen(@Valid Alumno alumno, BindingResult result, 
+			@RequestParam MultipartFile file) {
+
+		if(!file.isEmpty()) {
+			try {
+				alumno.setFoto(file.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return super.crear(alumno, result);
+	}
+	
+	@PutMapping("/editar-img/{id}")
+	public ResponseEntity<?> editarImagen(@Valid Alumno alumno, BindingResult result, @PathVariable Long id,
+			@RequestParam MultipartFile file) {
+		if(result.hasErrors()) {
+			return this.validar(result);
+		}
+		
+		Optional<Alumno> optionalAlumno = service.finById(id);
+		if(!optionalAlumno.isPresent()) {
+			return ResponseEntity.notFound().build();  //Construye la respuesta para un notfound 404
+		}
+		
+		Alumno alumnoDB = optionalAlumno.get();
+		alumnoDB.setNombre(alumno.getNombre());
+		alumnoDB.setApellido(alumno.getApellido());
+		alumnoDB.setEmail(alumno.getEmail());
+		
+		if(!file.isEmpty()) {
+			try {
+				alumnoDB.setFoto(file.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumnoDB));
+	}
+	
+}

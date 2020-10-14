@@ -1,0 +1,46 @@
+package com.formacionbdi.microservicios.common.examenes.models.entity;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="asignaturas")
+public class Asignatura {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	private String nombre;
+	
+	/** SELF JOIN: Una tabla esta relacionada a si misma */
+	@ManyToOne(fetch = FetchType.LAZY)  //Muchas asignaturas hijas asignadas a un padre
+	private Asignatura padre;
+	
+	@OneToMany(fetch = FetchType.LAZY)  //Una asignatura puede tener muchos hijos
+	private List<Asignatura> hijos;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+}

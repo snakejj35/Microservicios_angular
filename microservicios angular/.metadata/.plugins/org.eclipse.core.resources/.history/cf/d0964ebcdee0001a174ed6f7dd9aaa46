@@ -1,0 +1,18 @@
+package com.formacionbdi.microservicios.app.examenes.models.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.formacionbdi.microservicios.common.examenes.models.entity.Examen;
+
+public interface IExamenRepository extends PagingAndSortingRepository<Examen, Long>{
+
+	@Query("SELECT e FROM Examen e WHERE e.nombre like %?1%")
+	public List<Examen> findByNombre(String value);
+	
+	/** Que devuelva todos los examenes. Una lista de todos los examenes respondidos*/
+	//@Query("SELECT e.id FROM Respuesta r JOIN r.pregunta p JOIN p.examen e WHERE r.alumnoId=?1 GROUP BY e.id")
+	//public Iterable<Long> findExamenesIdsWithRespuestasByAlumno(Long alumnoId);		
+}
